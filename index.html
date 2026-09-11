@@ -272,7 +272,7 @@
 
     <div class="grid">
       <!-- 1. Jeopardy Live Show -->
-      <a href="https://jeopardy-live-show.ai.studio" target="_blank" rel="noopener noreferrer" class="app-card">
+      <a href="[https://jeopardy-live-show.ai.studio](https://jeopardy-live-show.ai.studio)" target="_blank" rel="noopener noreferrer" class="app-card">
         <div class="card-content">
           <div class="card-header">
             <span class="app-icon">🎯</span>
@@ -287,7 +287,7 @@
       </a>
 
       <!-- 2. Acomodo Matemático -->
-      <a href="https://acomodo-matem-tico-par-aula.ai.studio" target="_blank" rel="noopener noreferrer" class="app-card">
+      <a href="[https://acomodo-matem-tico-par-aula.ai.studio](https://acomodo-matem-tico-par-aula.ai.studio)" target="_blank" rel="noopener noreferrer" class="app-card">
         <div class="card-content">
           <div class="card-header">
             <span class="app-icon">📐</span>
@@ -302,7 +302,7 @@
       </a>
 
       <!-- 3. Reducción -->
-      <a href="https://reducci-n-juego-de-c-lculo-mental.ai.studio" target="_blank" rel="noopener noreferrer" class="app-card">
+      <a href="[https://reducci-n-juego-de-c-lculo-mental.ai.studio](https://reducci-n-juego-de-c-lculo-mental.ai.studio)" target="_blank" rel="noopener noreferrer" class="app-card">
         <div class="card-content">
           <div class="card-header">
             <span class="app-icon">⚡</span>
@@ -317,7 +317,7 @@
       </a>
 
       <!-- 4. Generador RPS -->
-      <a href="https://generador-rps-aam.streamlit.app/" target="_blank" rel="noopener noreferrer" class="app-card">
+      <a href="[https://generador-rps-aam.streamlit.app/](https://generador-rps-aam.streamlit.app/)" target="_blank" rel="noopener noreferrer" class="app-card">
         <div class="card-content">
           <div class="card-header">
             <span class="app-icon">📊</span>
@@ -332,7 +332,7 @@
       </a>
 
       <!-- 5. Generador QR -->
-      <a href="https://generador-qr-three.vercel.app/" target="_blank" rel="noopener noreferrer" class="app-card">
+      <a href="[https://generador-qr-three.vercel.app/](https://generador-qr-three.vercel.app/)" target="_blank" rel="noopener noreferrer" class="app-card">
         <div class="card-content">
           <div class="card-header">
             <span class="app-icon">🔳</span>
@@ -349,24 +349,16 @@
   </div>
 
   <script>
-    const TARGET_HASH = "504f7623c723f5b7aa21021484cebb748a3a08d2ca0fb3ce0e88373dff42c525";
+    const CLAVE_CORRECTA = "Altair16";
 
-    async function sha256(text) {
-      const msgBuffer = new TextEncoder().encode(text);
-      const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-      const hashArray = Array.from(new Uint8Array(hashBuffer));
-      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-    }
-
-    async function checkPass() {
+    function checkPass() {
       const input = document.getElementById('passInput');
       const err = document.getElementById('errorMsg');
-      const val = input.value;
+      const val = input.value.trim();
 
       if (!val) return;
 
-      const hash = await sha256(val);
-      if (hash === TARGET_HASH) {
+      if (val === CLAVE_CORRECTA) {
         sessionStorage.setItem('auth_panel_user', 'true');
         err.style.display = 'none';
         showDashboard();
@@ -398,4 +390,3 @@
   </script>
 </body>
 </html>
-```[cite: 1]
