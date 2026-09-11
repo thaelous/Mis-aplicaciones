@@ -1,292 +1,9 @@
-eta
-Nueva conversación
-Buscar conversaciones
-Imágenes
-Vídeos
-Biblioteca
-Gems
-Nuevo cuaderno
-Robert Pacheco
-Robert Pacheco
-Todos los cuadernos
-Jeopardy
-RPS
-guru
-Fracciones
-Innovación en Apps Infantiles Reales
-astrofirma
-acomodo aula
-App privada con QR para profesores
-Generación de vídeo con imitación de movimientos
-Creación de Panel de Aplicaciones Protegido
-El dinero y los sentimientos
-Rediseño de imagen para videos personalizados
-Cómics de hotel encantado
-Recepción Fantasmagórica en el Hotel
-El Hotel Encantado
-Mitos de herramientas de Google
-La Verdad Sobre Nikola Tesla
-Retrato ochentero del personaje
-Desconocimiento del término largo alfagorum
-Solución para colores invertidos en Google Books
-Límite de imágenes alcanzado
-Promoción de Videos Personalizados
-México en la prueba PISA
-Creación De Vídeo Con Música Y Movimiento
-Creación de vídeo con música y movimiento
-Creación de Video con Música y Movimiento
-Prompt para aplicación de rompecabezas
-Experticia en Harry Potter
-El misterio de los baños
-Conversación con Gemini
-Quiero hacer una página donde yo ponga todas mis aplicaciones
-
-
-
-Que sea solamente un listado y que esté protegido por contraseña para que yo pueda acceder a la aplicación que yo quiera sin mayor inconveniente.
-
-¡Me parece una idea genial! Es como tener tu propio "dashboard" o lanzador privado para no perderte entre enlaces ni andar buscando tus proyectos cada vez que quieras entrar.
-
-Para que sea algo súper ligero, rápido y sin complicarte la vida con bases de datos pesadas ni servidores caros, te recomiendo hacer una Single Page Application (un solo archivo HTML + CSS + JS) o alojarlo en un servicio estático gratuito (como GitHub Pages, Vercel o Netlify).
-
-Aquí tienes dos formas de resolver lo de la contraseña:
-
-Opción 1: La más simple y limpia (con hash criptográfico)
-No guardamos la contraseña en texto plano en el código para que nadie la vea si abre el inspector del navegador, sino que usamos un hash SHA-256. Además, guardamos la sesión en el navegador (sessionStorage) para que no te esté pidiendo la clave a cada clic.
-
-Aquí te preparé una plantilla completa lista para usar en un solo archivo index.html:
-
-HTML
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mi Panel de Aplicaciones</title>
-  <style>
-    :root {
-      --bg: #0f172a;
-      --card-bg: #1e293b;
-      --accent: #38bdf8;
-      --text: #f8fafc;
-      --text-muted: #94a3b8;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
-    body { background-color: var(--bg); color: var(--text); min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
-    
-    /* Login */
-    #login-box { background: var(--card-bg); padding: 2rem; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); width: 100%; max-width: 360px; text-align: center; }
-    #login-box h2 { margin-bottom: 1.5rem; font-size: 1.3rem; }
-    input[type="password"] { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #334155; background: #0f172a; color: #fff; margin-bottom: 1rem; font-size: 1rem; outline: none; }
-    input[type="password"]:focus { border-color: var(--accent); }
-    button { width: 100%; padding: 12px; border: none; border-radius: 8px; background: var(--accent); color: #0f172a; font-weight: bold; font-size: 1rem; cursor: pointer; transition: opacity 0.2s; }
-    button:hover { opacity: 0.9; }
-    .error { color: #f87171; font-size: 0.85rem; margin-top: 10px; display: none; }
-
-    /* Dashboard */
-    #dashboard { display: none; width: 100%; max-width: 800px; }
-    header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; border-bottom: 1px solid #334155; padding-bottom: 1rem; }
-    .btn-logout { width: auto; padding: 8px 16px; background: transparent; border: 1px solid #334155; color: var(--text-muted); font-size: 0.85rem; }
-    .btn-logout:hover { color: #fff; border-color: #64748b; }
-    
-    /* Grid de Apps */
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
-    .app-card { background: var(--card-bg); padding: 1.5rem; border-radius: 10px; text-decoration: none; color: inherit; border: 1px solid transparent; transition: all 0.2s ease; display: flex; flex-direction: column; gap: 8px; }
-    .app-card:hover { transform: translateY(-3px); border-color: var(--accent); box-shadow: 0 4px 20px rgba(56, 189, 248, 0.15); }
-    .app-title { font-size: 1.1rem; font-weight: 600; color: #fff; }
-    .app-desc { font-size: 0.85rem; color: var(--text-muted); }
-  </style>
-</head>
-<body>
-
-  <!-- Pantalla de bloqueo -->
-  <div id="login-box">
-    <h2>Acceso privado</h2>
-    <input type="password" id="passInput" placeholder="Contraseña" autofocus>
-    <button onclick="checkPass()">Entrar</button>
-    <div id="errorMsg" class="error">Contraseña incorrecta</div>
-  </div>
-
-  <!-- Dashboard con las Apps -->
-  <div id="dashboard">
-    <header>
-      <h1>Mis Aplicaciones</h1>
-      <button class="btn-logout" onclick="logout()">Cerrar sesión</button>
-    </header>
-
-    <div class="grid">
-      <!-- Agrega o edita tus apps aquí -->
-      <a href="https://tu-app-1.com" target="_blank" class="app-card">
-        <div class="app-title">📱 App Uno</div>
-        <div class="app-desc">Descripción corta o para qué sirve.</div>
-      </a>
-
-      <a href="https://tu-app-2.com" target="_blank" class="app-card">
-        <div class="app-title">🎮 App Dos</div>
-        <div class="app-desc">Herramienta o proyecto web.</div>
-      </a>
-
-      <a href="https://tu-app-3.com" target="_blank" class="app-card">
-        <div class="app-title">📊 App Tres</div>
-        <div class="app-desc">Panel de control o utilidad.</div>
-      </a>
-    </div>
-  </div>
-
-  <script>
-    // Hash SHA-256 de la contraseña por defecto: "clave123"
-    // (Abajo te explico cómo cambiarla por la tuya)
-    const HASH_CORRECTO = "8d35096ab6ebc24f6f406ab6ffbd7ec415ebefdb9c450c2f829f0464ac641dfb";
-
-    async function sha256(str) {
-      const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str));
-      return Array.prototype.map.call(new Uint8Array(buf), x => (('00' + x.toString(16)).slice(-2))).join('');
-    }
-
-    async function checkPass() {
-      const input = document.getElementById('passInput').value;
-      const hash = await sha256(input);
-      if (hash === HASH_CORRECTO) {
-        sessionStorage.setItem('auth', 'true');
-        showDashboard();
-      } else {
-        document.getElementById('errorMsg').style.display = 'block';
-      }
-    }
-
-    function showDashboard() {
-      document.getElementById('login-box').style.display = 'none';
-      document.getElementById('dashboard').style.display = 'block';
-    }
-
-    function logout() {
-      sessionStorage.removeItem('auth');
-      location.reload();
-    }
-
-    // Permite presionar "Enter"
-    document.getElementById('passInput').addEventListener('keyup', (e) => {
-      if (e.key === 'Enter') checkPass();
-    });
-
-    // Mantener sesión activa en la pestaña
-    if (sessionStorage.getItem('auth') === 'true') {
-      showDashboard();
-    }
-  </script>
-</body>
-</html>
-¿Cómo pones tu propia contraseña en esa plantilla?
-Para no dejar tu clave visible, solo tienes que calcular su hash SHA-256:
-
-Puedes abrir cualquier generador como emn178.github.io/online-tools/sha256.html o incluso abrir la consola de tu navegador y escribir:
-
-JavaScript
-crypto.subtle.digest("SHA-256", new TextEncoder().encode("TU_CLAVE_AQUI")).then(b => console.log(Array.from(new Uint8Array(b)).map(x => x.toString(16).padStart(2,'0')).join('')));
-Copias el resultado que te dé y lo pegas en la constante HASH_CORRECTO.
-
-Opción 2: Si quieres seguridad a nivel servidor (HTTP Basic Auth)
-Si no quieres meter nada de JavaScript y prefieres que sea el propio navegador el que te pida usuario y contraseña antes de cargar un solo pixel:
-
-En Vercel: Puedes proteger tu despliegue con contraseña desde la configuración del proyecto (Vercel Password Protection).
-
-En Netlify: Tienen la función de "Access Control / Password protection".
-
-En Cloudflare Pages: Puedes ponerle Cloudflare Access (Zero Trust) para que solo entre tu correo con un PIN de un solo uso.
-
-¿Te gusta la opción del archivo HTML para subirlo rápido a algún hosting o prefieres que lo montemos con algún servicio en específico? Dime y lo adaptamos a tu gusto.
-
-No, solo dame el prompt para pegarlo en google ai studio. la contraseña sera Altair16. y estas son las direcciones de las apps: https://jeopardy-live-show.ai.studio
-
-
-
-https://acomodo-matem-tico-par-aula.ai.studio
-
-
-
-https://reducci-n-juego-de-c-lculo-mental.ai.studio
-
-
-
-https://generador-rps-aam.streamlit.app/
-
-
-
-https://generador-qr-three.vercel.app/
-
-Aquí tienes el prompt listo. Solo cópialo y pégalo tal cual en Google AI Studio:
-
-Plaintext
-Actúa como un desarrollador web frontend senior. Genera una aplicación web completa y autocontenida en un único archivo HTML (incluyendo CSS y JavaScript embebidos).
-
-El objetivo es un "Dashboard / Lanzador personal de aplicaciones" protegido por contraseña.
-
-Requisitos funcionales y de seguridad:
-1. Pantalla de bloqueo inicial:
-   - Debe mostrar solo un campo de entrada para la contraseña y un botón de ingreso (permitir enviar con la tecla Enter).
-   - La contraseña de acceso es: "Altair16".
-   - Por buenas prácticas, no dejes la contraseña en texto plano en el código; valida mediante la comparación del hash SHA-256 usando crypto.subtle (el hash de "Altair16" es: 504f7623c723f5b7aa21021484cebb748a3a08d2ca0fb3ce0e88373dff42c525).
-   - Mostrar un mensaje de error elegante si la contraseña es incorrecta.
-   - Guarda el estado de autenticación en sessionStorage para que no pida la clave al recargar la pestaña, e incluye un botón visible para "Cerrar sesión".
-
-2. Panel de aplicaciones (Dashboard):
-   - Solo se muestra si la sesión está autenticada.
-   - Debe listar de forma limpia y atractiva las siguientes 5 aplicaciones en un diseño de cuadrícula (grid) de tarjetas (cards) clicables que abran el enlace en una pestaña nueva (`target="_blank"` rel="noopener noreferrer"):
-
-     1. Jeopardy Live Show
-        URL: https://jeopardy-live-show.ai.studio
-        Descripción: Dinámica de juego y trivias interactivas.
-
-     2. Acomodo Matemático
-        URL: https://acomodo-matem-tico-par-aula.ai.studio
-        Descripción: Herramienta y actividades para aula.
-
-     3. Reducción
-        URL: https://reducci-n-juego-de-c-lculo-mental.ai.studio
-        Descripción: Juego interactivo de cálculo mental.
-
-     4. Generador RPS
-        URL: https://generador-rps-aam.streamlit.app/
-        Descripción: Aplicación interactiva en Streamlit.
-
-     5. Generador QR
-        URL: https://generador-qr-three.vercel.app/
-        Descripción: Utilidad para creación y descarga de códigos QR.
-
-3. Diseño y estilo (UI/UX):
-   - Estilo moderno en modo oscuro (Dark Mode premium, paleta con tonos slate/zinc y acentos sutiles).
-   - Tipografía limpia del sistema, tarjetas con hover suave (elevación/borde brillante), totalmente responsivo para pantallas móviles y escritorio.
-   - Entrega exclusivamente el código completo listo para guardar como index.html.
-mejor generame tu el archivo index para subirlo a github
-
-Aquí tienes el archivo listo para subir directamente a tu repositorio de GitHub:
-
-Your HTML file is ready
-
-Icono de HTML
-index
- HTML 
-Detalles de lo que preparé:
-Contraseña protegida: Tu contraseña Altair16 está cifrada internamente mediante su hash SHA-256 (504f7623c723f5b7aa21021484cebb748a3a08d2ca0fb3ce0e88373dff42c525), por lo que nadie que inspeccione el código podrá ver la palabra en texto plano.
-
-Sesión cómoda: Guarda la sesión activa en sessionStorage para que mientras tengas la pestaña abierta no te esté pidiendo la contraseña una y otra vez, con un botón discreto de "Cerrar sesión" en la esquina superior derecha.
-
-Tus 5 aplicaciones incluidas: Con diseño de tarjetas en cuadrícula responsiva, estilo oscuro elegante, íconos y apertura en pestaña nueva (target="_blank").
-
-Listo para GitHub Pages: Solo descargas el archivo, lo subes a la raíz de tu repositorio como index.html, activas GitHub Pages y ya tendrás tu lanzador privado funcionando al 100%.
-
-
-
-
-Gemini es una IA y puede cometer errores.
-
-Analizando
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mi Panel de Aplicaciones</title>
+  <title>Mis Aplicaciones</title>
   <style>
     :root {
       --bg: #090d16;
@@ -303,7 +20,7 @@ Analizando
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
 
     body {
@@ -331,7 +48,6 @@ Analizando
       width: 100%;
       max-width: 380px;
       text-align: center;
-      transition: all 0.3s ease;
     }
 
     .lock-icon {
@@ -350,7 +66,6 @@ Analizando
       font-size: 1.4rem;
       font-weight: 700;
       margin-bottom: 0.5rem;
-      letter-spacing: -0.02em;
     }
 
     #login-box p {
@@ -390,16 +105,11 @@ Analizando
       font-weight: 700;
       font-size: 0.95rem;
       cursor: pointer;
-      transition: transform 0.15s, opacity 0.2s;
+      transition: opacity 0.2s;
     }
 
     button.btn-primary:hover {
       opacity: 0.95;
-      transform: translateY(-1px);
-    }
-
-    button.btn-primary:active {
-      transform: translateY(0);
     }
 
     .error-msg {
@@ -434,7 +144,6 @@ Analizando
     .brand-title h1 {
       font-size: 1.6rem;
       font-weight: 700;
-      letter-spacing: -0.02em;
     }
 
     .brand-title span {
@@ -481,28 +190,12 @@ Analizando
       min-height: 140px;
       transition: all 0.2s ease;
       position: relative;
-      overflow: hidden;
-    }
-
-    .app-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 3px;
-      background: transparent;
-      transition: background 0.2s;
     }
 
     .app-card:hover {
       transform: translateY(-4px);
       border-color: rgba(56, 189, 248, 0.4);
       box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
-    }
-
-    .app-card:hover::before {
-      background: linear-gradient(90deg, #38bdf8, #818cf8);
     }
 
     .card-content {
@@ -545,11 +238,6 @@ Analizando
       width: 14px;
       height: 14px;
       margin-left: 4px;
-      transition: transform 0.2s;
-    }
-
-    .app-card:hover .card-footer svg {
-      transform: translateX(3px) translateY(-3px);
     }
   </style>
 </head>
@@ -605,7 +293,7 @@ Analizando
             <span class="app-icon">📐</span>
             <div class="app-title">Acomodo Matemático</div>
           </div>
-          <div class="app-desc">Herramienta y actividades lúdicas para aula.</div>
+          <div class="app-desc">Herramienta y actividades para aula.</div>
         </div>
         <div class="card-footer">
           Abrir aplicación
@@ -620,7 +308,7 @@ Analizando
             <span class="app-icon">⚡</span>
             <div class="app-title">Reducción</div>
           </div>
-          <div class="app-desc">Juego interactivo y ágil de cálculo mental.</div>
+          <div class="app-desc">Juego interactivo de cálculo mental.</div>
         </div>
         <div class="card-footer">
           Abrir aplicación
@@ -635,7 +323,7 @@ Analizando
             <span class="app-icon">📊</span>
             <div class="app-title">Generador RPS</div>
           </div>
-          <div class="app-desc">Aplicación interactiva y utilidades en Streamlit.</div>
+          <div class="app-desc">Aplicación interactiva en Streamlit.</div>
         </div>
         <div class="card-footer">
           Abrir aplicación
@@ -650,7 +338,7 @@ Analizando
             <span class="app-icon">🔳</span>
             <div class="app-title">Generador QR</div>
           </div>
-          <div class="app-desc">Utilidad para creación y descarga rápida de códigos QR.</div>
+          <div class="app-desc">Utilidad para creación y descarga de códigos QR.</div>
         </div>
         <div class="card-footer">
           Abrir aplicación
@@ -661,7 +349,6 @@ Analizando
   </div>
 
   <script>
-    // Hash SHA-256 de "Altair16"
     const TARGET_HASH = "504f7623c723f5b7aa21021484cebb748a3a08d2ca0fb3ce0e88373dff42c525";
 
     async function sha256(text) {
@@ -711,3 +398,4 @@ Analizando
   </script>
 </body>
 </html>
+```[cite: 1]
